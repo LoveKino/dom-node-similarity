@@ -1,0 +1,27 @@
+{
+  "name": "dom-node-similarity",
+  "version": "0.0.1",
+  "description": "dom node similarity",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoveKino/dom-node-similarity.git"
+  },
+  "keywords": [
+    "dom",
+    "node",
+    "similarity"
+  ],
+  "author": "ddchen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LoveKino/dom-node-similarity/issues"
+  },
+  "homepage": "https://github.com/LoveKino/dom-node-similarity#readme",
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  }
+}
