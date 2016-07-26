@@ -2,12 +2,11 @@
 
 let distance = require('../util/distance');
 
-module.exports = (nodeInfo, source) => {
+module.exports = ['textContent', 10, (nodeInfo, source) => {
     let nText = nodeInfo.node.textContent || '';
     let sText = source.node.textContent || '';
-
-    return [10, contentMatchDegree(nText, sText), 'textContent'];
-};
+    return contentMatchDegree(nText, sText);
+}];
 
 let contentMatchDegree = (textContent, sourceText) => {
     if (!sourceText.length) {
