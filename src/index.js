@@ -10,12 +10,18 @@ let {
 
 let findMostSimilarNode = (nodeInfos, source) => {
     if (!nodeInfos.length) return null;
-    let sampleNode = nodeInfos[0];
-    let sample = getSimilarityDegree(nodeInfos[0], source);
-    let index = 0;
+
+    // sample
+    let sampleIndex = parseInt(Math.random() * nodeInfos.length);
+    let sampleNode = nodeInfos[sampleIndex];
+    let sample = getSimilarityDegree(nodeInfos[sampleIndex], source);
+    let index = sampleIndex;
 
     // calculate one node
-    for (let i = 1; i < nodeInfos.length; i++) {
+    for (let i = 0; i < nodeInfos.length; i++) {
+        if (i === sampleIndex) {
+            continue;
+        }
         let nodeInfo = nodeInfos[i];
 
         let supremum = getSupremum(nodeInfo, source);
