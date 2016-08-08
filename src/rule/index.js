@@ -1,8 +1,8 @@
 'use strict';
 
 let {
-    union, interset, mapToList
-} = require('../util');
+    union, interset, map
+} = require('bolzano');
 
 let contentRule = require('./content');
 
@@ -100,11 +100,7 @@ addRule.apply(undefined, contentRule);
 // path
 addRule.apply(undefined, pathRule);
 
-let getAttributeList = (attrs) => {
-    return mapToList(attrs, (key, value) => {
-        return `${key}=${value}`;
-    });
-};
+let getAttributeList = (attrs) => map(attrs, (value, key) => `${key}=${value}`);
 
 let getClasses = (clz = '') => {
     let ret = [];
