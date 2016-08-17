@@ -36,10 +36,11 @@ let runRule = (rule, nodeInfo, source) => {
     if (isNaN(scale) || isNaN(coefficient)) {
         throw new Error(`computation error happened, got a nan for ${ruleName}`);
     }
+
     return [coefficient, scale, ruleName];
 };
 
-let getSupremum = (nodeInfo, source) => {
+let getSupremum = (nodeInfo, source, rules) => {
     let ret = 0;
     for (let i = 0; i < rules.length; i++) {
         let {

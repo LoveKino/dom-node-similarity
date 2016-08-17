@@ -10,7 +10,7 @@ let pathRule = require('./path');
 
 let rules = [];
 
-let addRule = (ruleName, coefficientRule, scaleRule) => {
+let addRule = (ruleName, coefficientRule, scaleRule, speed) => {
     if (typeof coefficientRule === 'number') {
         let num = coefficientRule;
         coefficientRule = () => num;
@@ -18,7 +18,8 @@ let addRule = (ruleName, coefficientRule, scaleRule) => {
     rules.push({
         ruleName,
         coefficientRule,
-        scaleRule
+        scaleRule,
+        speed
     });
 };
 

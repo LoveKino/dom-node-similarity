@@ -12,7 +12,7 @@ let coefficientRule = (nodeInfo, source) => {
         return 0;
     }
 
-    return 10;
+    return 8;
 };
 
 let scaleRule = (nodeInfo, source, runRule) => {
@@ -42,4 +42,4 @@ let scaleRule = (nodeInfo, source, runRule) => {
     return sim / sum;
 };
 
-module.exports = ['path', coefficientRule, scaleRule];
+module.exports = ['path', coefficientRule, scaleRule, 'slow'];
