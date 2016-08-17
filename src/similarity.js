@@ -60,8 +60,8 @@ let getSupremum = (nodeInfo, source, rules) => {
 
 module.exports = {
     rules,
-    runRule,
     getSupremum,
     getSimilarityDegree,
-    getSimilarityMatrix
+    getSimilarityMatrix,
+    runRule
 };

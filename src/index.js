@@ -13,6 +13,9 @@ let {
 } = require('bolzano');
 
 // TODO [opt] find a good one
+// TODO cache
+
+/*
 let getRandomSample = (infoBox, source) => {
     // sample
     let sampleIndex = parseInt(Math.random() * infoBox.length);
@@ -21,6 +24,7 @@ let getRandomSample = (infoBox, source) => {
 
     return sampleInfo;
 };
+*/
 
 let filterByRules = (infoBox, source, totalRules, rules, restRules) => {
     infoBox = map(infoBox, (info) => {
@@ -91,6 +95,8 @@ let fastRules = filter(rules, (rule) => rule.speed !== 'slow');
 
 let slowRules = filter(rules, (rule) => rule.speed === 'slow');
 
+//let filterBySample = (infoBox, sample) => filter(infoBox, (info) => info.maxSuperBounce > sample.degree);
+
 let findMostSimilarNode = (nodeInfos, source) => {
     if (!nodeInfos.length) return null;
 
@@ -101,10 +107,10 @@ let findMostSimilarNode = (nodeInfos, source) => {
         };
     });
 
+    // filter by fast rules
     infoBox = filterByRules(infoBox, source, rules, fastRules, slowRules);
 
     // apply slow rules
-
     infoBox = reduce(slowRules, (prev, rule, index) => {
         return filterByRules(prev, source, rules, [rule], slowRules.slice(index + 1));
     }, infoBox);
