@@ -1,21 +1,20 @@
 'use strict';
 
 let {
-    rules,
     runRule,
     getSupremum,
     getSimilarityDegree,
     getSimilarityMatrix
 } = require('./similarity');
+let {
+    getRules
+} = require('./rule');
 
 let {
     map, reduce, filter, forEach
 } = require('bolzano');
 
 // TODO [opt] find a good one
-// TODO cache
-
-/*
 let getRandomSample = (infoBox, source) => {
     // sample
     let sampleIndex = parseInt(Math.random() * infoBox.length);
@@ -24,7 +23,12 @@ let getRandomSample = (infoBox, source) => {
 
     return sampleInfo;
 };
-*/
+
+let filterBySample = (infoBox, sample) => {
+    return filter(infoBox, (info) => {
+        return info.maxSuperBounce > sample.degree;
+    });
+};
 
 let filterByRules = (infoBox, source, totalRules, rules, restRules) => {
     infoBox = map(infoBox, (info) => {
@@ -91,14 +95,14 @@ let bounceInfoBox = (infoBox, source, totalRules, restRules) => map(infoBox, (in
 
 let isAbsLow = (info1, info2) => info1.maxSuperBounce < info2.minSuperBounce;
 
-let fastRules = filter(rules, (rule) => rule.speed !== 'slow');
-
-let slowRules = filter(rules, (rule) => rule.speed === 'slow');
-
-//let filterBySample = (infoBox, sample) => filter(infoBox, (info) => info.maxSuperBounce > sample.degree);
-
 let findMostSimilarNode = (nodeInfos, source) => {
     if (!nodeInfos.length) return null;
+
+    let rules = getRules(source);
+
+    let fastRules = filter(rules, (rule) => rule[3] !== 'slow');
+
+    let slowRules = filter(rules, (rule) => rule[3] === 'slow');
 
     let infoBox = map(nodeInfos, (item, index) => {
         return {
@@ -110,7 +114,10 @@ let findMostSimilarNode = (nodeInfos, source) => {
     // filter by fast rules
     infoBox = filterByRules(infoBox, source, rules, fastRules, slowRules);
 
+    infoBox = filterBySample(infoBox, getRandomSample(infoBox, source));
+
     // apply slow rules
+    // bad case a lot slow nodes
     infoBox = reduce(slowRules, (prev, rule, index) => {
         return filterByRules(prev, source, rules, [rule], slowRules.slice(index + 1));
     }, infoBox);

@@ -2,27 +2,14 @@
 
 let distance = require('../util/distance');
 
-let coefficientRule = (nodeInfo, source) => {
+module.exports = (nodeInfo, source, runRule) => {
     let nPath = nodeInfo.path || [];
     let sPath = source.path || [];
     nPath = nPath.slice(0);
     sPath = sPath.slice(0);
 
     if (!nPath.length && !sPath.length) {
-        return 0;
-    }
-
-    return 8;
-};
-
-let scaleRule = (nodeInfo, source, runRule) => {
-    let nPath = nodeInfo.path || [];
-    let sPath = source.path || [];
-    nPath = nPath.slice(0);
-    sPath = sPath.slice(0);
-
-    if (!nPath.length && !sPath.length) {
-        return 0;
+        return 1;
     }
 
     let dis = distance(nPath, sPath, (item1, item2) => {
@@ -41,5 +28,3 @@ let scaleRule = (nodeInfo, source, runRule) => {
 
     return sim / sum;
 };
-
-module.exports = ['path', coefficientRule, scaleRule, 'slow'];

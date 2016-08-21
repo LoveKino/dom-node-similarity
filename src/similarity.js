@@ -1,6 +1,8 @@
 'use strict';
 
-let rules = require('./rule');
+let {
+    getRules
+} = require('./rule');
 
 let getSimilarityDegree = (nodeInfo, source) => {
     let rets = getSimilarityMatrix(nodeInfo, source);
@@ -17,6 +19,7 @@ let getSimilarityDegree = (nodeInfo, source) => {
 };
 
 let getSimilarityMatrix = (nodeInfo, source) => {
+    let rules = getRules(source);
     let rets = [];
     for (let i = 0; i < rules.length; i++) {
         rets.push(runRule(rules[i], nodeInfo, source));
@@ -26,11 +29,8 @@ let getSimilarityMatrix = (nodeInfo, source) => {
 };
 
 let runRule = (rule, nodeInfo, source) => {
-    let {
-        ruleName, coefficientRule, scaleRule
-    } = rule;
+    let [ruleName, coefficient, scaleRule] = rule;
 
-    let coefficient = coefficientRule(nodeInfo, source);
     let scale = scaleRule(nodeInfo, source, getSimilarityDegree);
 
     if (isNaN(scale) || isNaN(coefficient)) {
@@ -43,11 +43,7 @@ let runRule = (rule, nodeInfo, source) => {
 let getSupremum = (nodeInfo, source, rules) => {
     let ret = 0;
     for (let i = 0; i < rules.length; i++) {
-        let {
-            ruleName, coefficientRule
-        } = rules[i];
-
-        let coefficient = coefficientRule(nodeInfo, source);
+        let [ruleName, coefficient] = rules[i];
 
         if (isNaN(coefficient)) {
             throw new Error(`computation error happened, got a nan for ${ruleName}`);
@@ -59,7 +55,6 @@ let getSupremum = (nodeInfo, source, rules) => {
 };
 
 module.exports = {
-    rules,
     getSupremum,
     getSimilarityDegree,
     getSimilarityMatrix,

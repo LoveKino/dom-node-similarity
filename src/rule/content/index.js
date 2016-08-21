@@ -1,12 +1,26 @@
 'use strict';
 
+/**
+ * split text content match into three levels
+ *
+ * 1. cur node
+ *
+ * 2. parent node
+ *
+ * 3. grand node
+ *
+ * 4. bad case TODO
+ */
+
 let distance = require('../util/distance');
 
-module.exports = ['textContent', 10, (nodeInfo, source) => {
+module.exports = (nodeInfo, source) => {
     let nText = nodeInfo.node.textContent || '';
     let sText = source.node.textContent || '';
-    return contentMatchDegree(nText, sText);
-}];
+
+    let degree = contentMatchDegree(nText, sText);
+    return degree;
+};
 
 let contentMatchDegree = (textContent, sourceText) => {
     if (!sourceText.length) {
@@ -29,6 +43,7 @@ let contentMatchDegree = (textContent, sourceText) => {
     }
 
     let dis = distance(textContent, sourceText);
+
     return 1 - dis / Math.max(textContent.length, sourceText.length);
 };
 
