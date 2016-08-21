@@ -116,8 +116,6 @@ let findMostSimilarNode = (nodeInfos, source) => {
 
     infoBox = filterBySample(infoBox, getRandomSample(infoBox, source));
 
-    console.log(infoBox.length);
-
     // apply slow rules
     // bad case a lot slow nodes
     infoBox = reduce(slowRules, (prev, rule, index) => {
