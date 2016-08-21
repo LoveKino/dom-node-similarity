@@ -30,6 +30,7 @@
     "doming": "~0.0.1"
   },
   "dependencies": {
-    "cl-jsoneq": "0.0.3"
+    "cl-jsoneq": "0.0.3",
+    "onecolor": "^3.0.4"
   }
 }

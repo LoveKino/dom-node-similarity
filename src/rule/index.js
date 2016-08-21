@@ -5,7 +5,7 @@
  */
 
 let {
-    map
+    map, compact
 } = require('bolzano');
 
 let contentRule = require('./content');
@@ -13,12 +13,14 @@ let contentRule = require('./content');
 let pathRule = require('./path');
 
 let {
-    boolToNum, matchList
+    boolToNum, matchList, getRate
 } = require('./util');
 
 let {
     getClasses
 } = require('doming');
+
+let color = require('onecolor');
 
 let getAttributeList = (attrs) => map(attrs, (value, key) => `${key}=${value}`);
 
@@ -28,44 +30,89 @@ let getRules = (source) => {
     } = source;
 
     let {
+        style
+    } = node;
+
+    let {
         attributes
     } = node;
 
-    return [
-        ['tagName', 10, (nodeInfo) => {
-            return boolToNum(nodeInfo.node.tagName === node.tagName);
-        }],
+    return compact(
+        [
+            ['tagName', 10, (nodeInfo) => {
+                return boolToNum(nodeInfo.node.tagName === node.tagName);
+            }],
 
-        ['order of node', 5, (nodeInfo) => {
-            return boolToNum(nodeInfo.node.index === node.index);
-        }],
+            ['order of node', 5, (nodeInfo) => {
+                return boolToNum(nodeInfo.node.index === node.index);
+            }],
 
-        ['id', 8, (nodeInfo) => {
-            let nId = nodeInfo.node.attributes['id'];
-            let sId = attributes['id'];
-            return boolToNum(nId === sId);
-        }],
+            ['id', 8, (nodeInfo) => {
+                let nId = nodeInfo.node.attributes['id'];
+                let sId = attributes['id'];
+                return boolToNum(nId === sId);
+            }],
 
-        ['class', 4, (nodeInfo) => {
-            let nClz = nodeInfo.node.attributes['class'];
-            let sClz = attributes['class'];
-            return matchList(getClasses(nClz), getClasses(sClz));
-        }],
+            ['class', 4, (nodeInfo) => {
+                let nClz = nodeInfo.node.attributes['class'];
+                let sClz = attributes['class'];
+                return matchList(getClasses(nClz), getClasses(sClz));
+            }],
 
-        ['attributes', 5, (nodeInfo) => {
-            let nAttr = nodeInfo.node.attributes;
+            ['attributes', 5, (nodeInfo) => {
+                let nAttr = nodeInfo.node.attributes;
 
-            let nList = getAttributeList(nAttr);
-            let sList = getAttributeList(attributes);
+                let nList = getAttributeList(nAttr);
+                let sList = getAttributeList(attributes);
 
-            return matchList(nList, sList);
-        }],
+                return matchList(nList, sList);
+            }],
 
-        ['content', 10, contentRule],
+            ['backgroundColor', 3, (nodeInfo) => {
+                if (!style && !nodeInfo.node.style) return 1;
+                return boolToNum(
+                    getStyleColor(source, 'background-color') === getStyleColor(nodeInfo, 'background-color')
+                );
+            }],
 
-        ['path', 5, pathRule, 'slow']
-    ];
+            ['color', 2, (nodeInfo) => {
+                if (!style && !nodeInfo.node.style) return 1;
+                return boolToNum(
+                    getStyleColor(source, 'color') === getStyleColor(nodeInfo, 'color')
+                );
+            }],
+
+            ['fontSize', 2, (nodeInfo) => {
+                if (!style && !nodeInfo.node.style) return 1;
+                return boolToNum(
+                    getStyleAttr(source, 'font-size') === getStyleAttr(nodeInfo, 'font-size')
+                );
+            }],
+
+            ['clientWidth', 2, (nodeInfo) => {
+                if (!style && !nodeInfo.node.style) return 1;
+                return getRate(getShapeAttr(source, 'clientWidth'), getShapeAttr(nodeInfo, 'clientWidth'));
+            }],
+
+            ['clientHeight', 2, (nodeInfo) => {
+                if (!style && !nodeInfo.node.style) return 1;
+                return getRate(getShapeAttr(source, 'clientHeight'), getShapeAttr(nodeInfo, 'clientHeight'));
+            }],
+
+            ['content', 10, contentRule],
+
+            ['path', 5, pathRule, 'slow']
+        ]
+    );
 };
+
+let getShapeAttr = (info, name) => getShape(info)[name];
+
+let getShape = (info) => info.node.style.shape;
+
+let getStyleColor = (info, name) => color(getStyleAttr(info, name)).hex();
+
+let getStyleAttr = (info, name) => info.node.style.style[name];
 
 module.exports = {
     getRules
