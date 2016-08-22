@@ -1,36 +1,36 @@
 {
-  "name": "dom-node-similarity",
-  "version": "0.0.1",
-  "description": "dom node similarity",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha test/**/*.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LoveKino/dom-node-similarity.git"
-  },
-  "keywords": [
-    "dom",
-    "node",
-    "similarity"
-  ],
-  "author": "ddchen",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/LoveKino/dom-node-similarity/issues"
-  },
-  "homepage": "https://github.com/LoveKino/dom-node-similarity#readme",
-  "devDependencies": {
-    "mocha": "^2.5.3"
-  },
-  "link_dependencies": {
-    "bolzano": "~0.0.1",
-    "cachefun": "~0.0.1",
-    "doming": "~0.0.1"
-  },
-  "dependencies": {
-    "cl-jsoneq": "0.0.3",
-    "onecolor": "^3.0.4"
-  }
+    "name": "dom-node-similarity",
+    "version": "0.0.1",
+    "description": "dom node similarity",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha test/**/*.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/LoveKino/dom-node-similarity.git"
+    },
+    "keywords": [
+        "dom",
+        "node",
+        "similarity"
+    ],
+    "author": "ddchen",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/LoveKino/dom-node-similarity/issues"
+    },
+    "homepage": "https://github.com/LoveKino/dom-node-similarity#readme",
+    "devDependencies": {
+        "mocha": "^2.5.3"
+    },
+    "link_dependencies": {
+        "bolzano": "~0.0.1",
+        "cachefun": "~0.0.1",
+        "doming": "~0.0.1"
+    },
+    "dependencies": {
+        "cl-jsoneq": "0.0.3",
+        "onecolor": "^3.0.4"
+    }
 }
