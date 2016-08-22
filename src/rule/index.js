@@ -68,34 +68,29 @@ let getRules = (source) => {
                 return matchList(nList, sList);
             }],
 
-            ['backgroundColor', 3, (nodeInfo) => {
-                if (!style && !nodeInfo.node.style) return 1;
+            style && ['backgroundColor', 3, (nodeInfo) => {
                 return boolToNum(
                     getStyleColor(source, 'background-color') === getStyleColor(nodeInfo, 'background-color')
                 );
             }],
 
-            ['color', 2, (nodeInfo) => {
-                if (!style && !nodeInfo.node.style) return 1;
+            style && ['color', 2, (nodeInfo) => {
                 return boolToNum(
                     getStyleColor(source, 'color') === getStyleColor(nodeInfo, 'color')
                 );
             }],
 
-            ['fontSize', 2, (nodeInfo) => {
-                if (!style && !nodeInfo.node.style) return 1;
+            style && ['fontSize', 2, (nodeInfo) => {
                 return boolToNum(
                     getStyleAttr(source, 'font-size') === getStyleAttr(nodeInfo, 'font-size')
                 );
             }],
 
-            ['clientWidth', 2, (nodeInfo) => {
-                if (!style && !nodeInfo.node.style) return 1;
+            style && ['clientWidth', 2, (nodeInfo) => {
                 return getRate(getShapeAttr(source, 'clientWidth'), getShapeAttr(nodeInfo, 'clientWidth'));
             }],
 
-            ['clientHeight', 2, (nodeInfo) => {
-                if (!style && !nodeInfo.node.style) return 1;
+            style && ['clientHeight', 2, (nodeInfo) => {
                 return getRate(getShapeAttr(source, 'clientHeight'), getShapeAttr(nodeInfo, 'clientHeight'));
             }],
 
