@@ -96,7 +96,7 @@ let getRules = (source) => {
 
             ['content', 10, contentRule],
 
-            ['path', 5, pathRule, 'slow']
+            ['path', 10, pathRule, 'slow']
         ]
     );
 };

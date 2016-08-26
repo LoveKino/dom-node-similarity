@@ -14,11 +14,11 @@ let {
     map, reduce, filter, forEach
 } = require('bolzano');
 
-// TODO [opt] find a good one
-let getRandomSample = (infoBox, source) => {
-    // sample
-    let sampleIndex = parseInt(Math.random() * infoBox.length);
-    let sampleInfo = infoBox[sampleIndex];
+// TODO optimize
+// 1. cache
+// 2. find a good by common values
+
+let getSample = (infoBox, sampleInfo, source) => {
     sampleInfo.degree = getSimilarityDegree(sampleInfo.nodeInfo, source);
 
     return sampleInfo;
@@ -114,7 +114,14 @@ let findMostSimilarNode = (nodeInfos, source) => {
     // filter by fast rules
     infoBox = filterByRules(infoBox, source, rules, fastRules, slowRules);
 
-    infoBox = filterBySample(infoBox, getRandomSample(infoBox, source));
+    let bestGuess = reduce(infoBox, (prev, cur) => {
+        if (!prev) return cur;
+        if (prev.lost < cur.lost) return prev;
+        return cur;
+    }, null);
+
+    // filter by sample
+    infoBox = filterBySample(infoBox, getSample(infoBox, bestGuess, source));
 
     // apply slow rules
     // bad case a lot slow nodes
