@@ -6,12 +6,15 @@ let {
     getSimilarityDegree,
     getSimilarityMatrix
 } = require('./similarity');
+
 let {
     getRules
 } = require('./rule');
 
+let FilterByRules = require('./filterByRules');
+
 let {
-    map, reduce, filter, forEach
+    map, reduce, filter
 } = require('bolzano');
 
 // TODO optimize
@@ -30,79 +33,14 @@ let filterBySample = (infoBox, sample) => {
     });
 };
 
-let filterByRules = (infoBox, source, totalRules, rules, restRules) => {
-    infoBox = map(infoBox, (info) => {
-        let {
-            nodeInfo
-        } = info;
-
-        // calculate lost
-        info.lost = info.lost || 0;
-        info.lost += reduce(rules, (ret, rule) => {
-            let [coefficient, scale] = runRule(rule, nodeInfo, source);
-            ret += (1 - scale) * coefficient;
-            return ret;
-        }, 0);
-
-        return info;
-    });
-
-    infoBox = bounceInfoBox(infoBox, source, rules, restRules);
-
-    // filter
-    return filterByBounce(infoBox);
-};
-
-let filterByBounce = (infoBox) => {
-    // filter
-    return reduce(infoBox, (prev, info) => {
-        let ret = [];
-        if (!prev.length) {
-            ret.push(info);
-        } else {
-            forEach(prev, (item, index) => {
-                if (isAbsLow(info, item)) {
-                    ret = ret.concat(prev.slice(index));
-                    return true; // break
-                } else if (!isAbsLow(item, info)) {
-                    ret.push(item);
-                }
-                if (index === prev.length - 1) {
-                    ret.push(info);
-                }
-            });
-        }
-
-        return ret;
-    }, []);
-};
-
-let bounceInfoBox = (infoBox, source, totalRules, restRules) => map(infoBox, (info) => {
-    let {
-        nodeInfo, lost
-    } = info;
-
-    let supremum = getSupremum(nodeInfo, source, totalRules);
-    let rest = getSupremum(nodeInfo, source, restRules);
-    let maxSuperBounce = (supremum - lost + rest) / supremum;
-
-    let minSuperBounce = (supremum - lost - rest) / supremum;
-
-    info.maxSuperBounce = maxSuperBounce;
-    info.minSuperBounce = minSuperBounce;
-    return info;
-});
-
-let isAbsLow = (info1, info2) => info1.maxSuperBounce < info2.minSuperBounce;
-
 let findMostSimilarNode = (nodeInfos, source) => {
     if (!nodeInfos.length) return null;
 
-    let rules = getRules(source);
+    let totalRules = getRules(source);
 
-    let fastRules = filter(rules, (rule) => rule[3] !== 'slow');
+    let fastRules = filter(totalRules, (rule) => rule[3] !== 'slow');
 
-    let slowRules = filter(rules, (rule) => rule[3] === 'slow');
+    let slowRules = filter(totalRules, (rule) => rule[3] === 'slow');
 
     let infoBox = map(nodeInfos, (item, index) => {
         return {
@@ -111,14 +49,17 @@ let findMostSimilarNode = (nodeInfos, source) => {
         };
     });
 
-    // filter by fast rules
-    infoBox = filterByRules(infoBox, source, rules, fastRules, slowRules);
+    let filterByRules = FilterByRules({
+        source,
+        totalRules,
+        runRule,
+        getSupremum
+    });
 
-    let bestGuess = reduce(infoBox, (prev, cur) => {
-        if (!prev) return cur;
-        if (prev.lost < cur.lost) return prev;
-        return cur;
-    }, null);
+    // filter by fast rules
+    infoBox = filterByRules(infoBox, fastRules, slowRules);
+
+    let bestGuess = getBestGuess(infoBox);
 
     // filter by sample
     infoBox = filterBySample(infoBox, getSample(infoBox, bestGuess, source));
@@ -126,17 +67,25 @@ let findMostSimilarNode = (nodeInfos, source) => {
     // apply slow rules
     // bad case a lot slow nodes
     infoBox = reduce(slowRules, (prev, rule, index) => {
-        return filterByRules(prev, source, rules, [rule], slowRules.slice(index + 1));
+        return filterByRules(prev, [rule], slowRules.slice(index + 1));
     }, infoBox);
 
     let info = infoBox[0];
 
-    let supremum = getSupremum(info.nodeInfo, source, rules);
+    let supremum = getSupremum(source, totalRules);
 
     return {
         degree: (supremum - info.lost) / supremum,
         index: info.index
     };
+};
+
+let getBestGuess = (infoBox) => {
+    return reduce(infoBox, (prev, cur) => {
+        if (!prev) return cur;
+        if (prev.lost < cur.lost) return prev;
+        return cur;
+    }, null);
 };
 
 module.exports = {

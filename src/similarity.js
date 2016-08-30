@@ -40,7 +40,7 @@ let runRule = (rule, nodeInfo, source) => {
     return [coefficient, scale, ruleName];
 };
 
-let getSupremum = (nodeInfo, source, rules) => {
+let getSupremum = (source, rules) => {
     let ret = 0;
     for (let i = 0; i < rules.length; i++) {
         let [ruleName, coefficient] = rules[i];
