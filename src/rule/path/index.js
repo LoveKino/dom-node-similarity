@@ -1,6 +1,6 @@
 'use strict';
 
-let distance = require('../util/distance');
+let distance = require('levsimilarity');
 
 module.exports = (nodeInfo, source, runRule) => {
     let nPath = nodeInfo.path || [];

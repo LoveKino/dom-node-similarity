@@ -12,7 +12,7 @@
  * 4. bad case TODO
  */
 
-let distance = require('../util/distance');
+let distance = require('levsimilarity');
 
 module.exports = (nodeInfo, source) => {
     let nText = nodeInfo.node.textContent || '';
