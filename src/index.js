@@ -1,14 +1,8 @@
 'use strict';
 
 let {
-    runRule,
-    getSupremum,
-    getSimilarityDegree,
+    getRules, runRule, getSimilarityDegree,
     getSimilarityMatrix
-} = require('./similarity');
-
-let {
-    getRules
 } = require('./rule');
 
 let FilterByRules = require('./filterByRules');
@@ -86,6 +80,20 @@ let getBestGuess = (infoBox) => {
         if (prev.lost < cur.lost) return prev;
         return cur;
     }, null);
+};
+
+let getSupremum = (source, rules) => {
+    let ret = 0;
+    for (let i = 0; i < rules.length; i++) {
+        let [ruleName, coefficient] = rules[i];
+
+        if (isNaN(coefficient)) {
+            throw new Error(`computation error happened, got a nan for ${ruleName}`);
+        }
+
+        ret += coefficient;
+    }
+    return ret;
 };
 
 module.exports = {

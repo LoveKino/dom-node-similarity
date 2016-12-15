@@ -13,6 +13,7 @@
  */
 
 let distance = require('levsimilarity');
+let sift4 = require('./sift4');
 
 module.exports = (nodeInfo, source) => {
     let nText = nodeInfo.node.textContent || '';
@@ -31,22 +32,13 @@ let contentMatchDegree = (textContent, sourceText) => {
         }
     }
 
-    // quick response
-    let quickRate = quickSimilarRate(textContent, sourceText);
-    if (quickRate < 0.3) {
-        return quickRate;
-    }
+    let dis = null;
 
-    // avoid big calculation
-    if (textContent.length > 2000) {
-        return quickRate;
+    if (textContent.length * sourceText.length > 100 * 100) {
+        dis = sift4(textContent, sourceText);
+    } else {
+        dis = distance(textContent, sourceText);
     }
-
-    let dis = distance(textContent, sourceText);
 
     return 1 - dis / Math.max(textContent.length, sourceText.length);
-};
-
-let quickSimilarRate = (a, b) => {
-    return 1 - Math.abs(a.length - b.length) / Math.max(a.length, b.length);
 };
