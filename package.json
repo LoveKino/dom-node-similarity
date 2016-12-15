@@ -25,10 +25,10 @@
     "mocha": "^2.5.3"
   },
   "dependencies": {
-    "bolzano": "0.0.1",
+    "bolzano": "0.0.4",
     "cl-jsoneq": "0.0.3",
     "doming": "0.0.1",
-    "levsimilarity": "0.0.1",
+    "levsimilarity": "^0.1.0",
     "onecolor": "^3.0.4"
   }
 }

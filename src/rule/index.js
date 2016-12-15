@@ -69,28 +69,33 @@ let getRules = (source) => {
             }],
 
             style && ['backgroundColor', 3, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
                 return boolToNum(
                     getStyleColor(source, 'background-color') === getStyleColor(nodeInfo, 'background-color')
                 );
             }],
 
             style && ['color', 2, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
                 return boolToNum(
                     getStyleColor(source, 'color') === getStyleColor(nodeInfo, 'color')
                 );
             }],
 
             style && ['fontSize', 2, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
                 return boolToNum(
                     getStyleAttr(source, 'font-size') === getStyleAttr(nodeInfo, 'font-size')
                 );
             }],
 
             style && ['clientWidth', 2, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
                 return getRate(getShapeAttr(source, 'clientWidth'), getShapeAttr(nodeInfo, 'clientWidth'));
             }],
 
             style && ['clientHeight', 2, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
                 return getRate(getShapeAttr(source, 'clientHeight'), getShapeAttr(nodeInfo, 'clientHeight'));
             }],
 
