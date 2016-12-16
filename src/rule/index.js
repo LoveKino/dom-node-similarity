@@ -89,6 +89,20 @@ let getRules = (source) => {
                 );
             }],
 
+            style && ['display', 3, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
+                if (getStyleAttr(source, 'display') === 'none' &&
+                    getStyleAttr(nodeInfo, 'display') !== 'none') {
+                    return 0;
+                }
+                if (getStyleAttr(source, 'display') !== 'none' &&
+                    getStyleAttr(nodeInfo, 'display') === 'none') {
+                    return 0;
+                }
+
+                return 1;
+            }],
+
             style && ['clientWidth', 2, (nodeInfo) => {
                 if (!nodeInfo.node.style) return 0;
                 return getRate(getShapeAttr(source, 'clientWidth'), getShapeAttr(nodeInfo, 'clientWidth'));
