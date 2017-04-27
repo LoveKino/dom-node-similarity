@@ -1,6 +1,6 @@
 {
   "name": "dom-node-similarity",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "dom node similarity",
   "main": "index.js",
   "scripts": {
@@ -22,11 +22,13 @@
   },
   "homepage": "https://github.com/LoveKino/dom-node-similarity#readme",
   "devDependencies": {
+    "es6-promisify": "^5.0.0",
     "mocha": "^2.5.3"
   },
   "dependencies": {
     "bolzano": "0.0.4",
     "cl-jsoneq": "0.0.3",
+    "color-similarity": "0.0.1",
     "doming": "0.0.1",
     "levsimilarity": "^0.1.0",
     "onecolor": "^3.0.4"

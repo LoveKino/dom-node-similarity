@@ -13,7 +13,7 @@ let contentRule = require('./content');
 let pathRule = require('./path');
 
 let {
-    boolToNum, matchList, getRate
+    boolToNum, matchList, getRate, calColorSimilarity
 } = require('./util');
 
 let {
@@ -70,15 +70,18 @@ let getRules = (source) => {
 
             style && ['backgroundColor', 3, (nodeInfo) => {
                 if (!nodeInfo.node.style) return 0;
-                return boolToNum(
-                    getStyleColor(source, 'background-color') === getStyleColor(nodeInfo, 'background-color')
+                return calColorSimilarity(
+                    getStyleColor(source, 'background-color'),
+                    getStyleColor(nodeInfo, 'background-color')
                 );
             }],
 
+            // color similarity
             style && ['color', 2, (nodeInfo) => {
                 if (!nodeInfo.node.style) return 0;
-                return boolToNum(
-                    getStyleColor(source, 'color') === getStyleColor(nodeInfo, 'color')
+                return calColorSimilarity(
+                    getStyleColor(source, 'color'),
+                    getStyleColor(nodeInfo, 'color')
                 );
             }],
 
@@ -103,6 +106,7 @@ let getRules = (source) => {
                 return 1;
             }],
 
+            // position
             style && ['clientWidth', 2, (nodeInfo) => {
                 if (!nodeInfo.node.style) return 0;
                 return getRate(getShapeAttr(source, 'clientWidth'), getShapeAttr(nodeInfo, 'clientWidth'));
@@ -113,8 +117,25 @@ let getRules = (source) => {
                 return getRate(getShapeAttr(source, 'clientHeight'), getShapeAttr(nodeInfo, 'clientHeight'));
             }],
 
+            style && ['left', 2, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
+                let sourceRect = getShapeAttr(source, 'rect');
+                let tarRect = getShapeAttr(nodeInfo, 'rect');
+                if (!sourceRect || !tarRect) return 0;
+                return getRate(sourceRect.left, tarRect.left);
+            }],
+
+            style && ['top', 2, (nodeInfo) => {
+                if (!nodeInfo.node.style) return 0;
+                let sourceRect = getShapeAttr(source, 'rect');
+                let tarRect = getShapeAttr(nodeInfo, 'rect');
+                if (!sourceRect || !tarRect) return 0;
+                return getRate(sourceRect.top, tarRect.top);
+            }],
+
             ['content', 10, contentRule],
 
+            // stand for context
             ['path', 10, pathRule, 'slow']
         ]
     );

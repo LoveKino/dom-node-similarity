@@ -1,5 +1,10 @@
 'use strict';
 
+let onecolor = require('onecolor');
+let {
+    YUVSimilarity
+} = require('color-similarity');
+
 let {
     union, interset
 } = require('bolzano');
@@ -27,8 +32,27 @@ let getRate = (t1, t2) => {
     return 1 - Math.abs(t1 - t2) / Math.max(t1, t2);
 };
 
+let calColorSimilarity = (color1, color2) => {
+    color1 = onecolor(color1);
+    color2 = onecolor(color2);
+
+    let alphaOffset = color1.alpha() - color2.alpha();
+    let alphaSimilarity = 1 - (Math.sqrt(alphaOffset * alphaOffset) / 1);
+
+    return alphaSimilarity * YUVSimilarity([
+        color1.red() * 255,
+        color1.green() * 255,
+        color1.blue() * 255
+    ], [
+        color2.red() * 255,
+        color2.green() * 255,
+        color2.blue() * 255
+    ]);
+};
+
 module.exports = {
     boolToNum,
     matchList,
-    getRate
+    getRate,
+    calColorSimilarity
 };
