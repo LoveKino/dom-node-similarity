@@ -13,7 +13,7 @@ let contentRule = require('./content');
 let pathRule = require('./path');
 
 let {
-    boolToNum, matchList, getRate, calColorSimilarity
+    boolToNum, matchList, getRate, calColorSimilarity, spaceSimilarity
 } = require('./util');
 
 let {
@@ -117,20 +117,13 @@ let getRules = (source) => {
                 return getRate(getShapeAttr(source, 'clientHeight'), getShapeAttr(nodeInfo, 'clientHeight'));
             }],
 
-            style && ['left', 2, (nodeInfo) => {
+            style && ['position', 4, (nodeInfo) => {
                 if (!nodeInfo.node.style) return 0;
                 let sourceRect = getShapeAttr(source, 'rect');
                 let tarRect = getShapeAttr(nodeInfo, 'rect');
                 if (!sourceRect || !tarRect) return 0;
-                return getRate(sourceRect.left, tarRect.left);
-            }],
 
-            style && ['top', 2, (nodeInfo) => {
-                if (!nodeInfo.node.style) return 0;
-                let sourceRect = getShapeAttr(source, 'rect');
-                let tarRect = getShapeAttr(nodeInfo, 'rect');
-                if (!sourceRect || !tarRect) return 0;
-                return getRate(sourceRect.top, tarRect.top);
+                return spaceSimilarity([sourceRect.left, sourceRect.top], [tarRect.left, tarRect.top]);
             }],
 
             ['content', 10, contentRule],

@@ -50,9 +50,33 @@ let calColorSimilarity = (color1, color2) => {
     ]);
 };
 
+let spaceSimilarity = (p1, p2) => {
+    let len1 = Math.sqrt(p1[0] * p1[0] + p1[1] * p1[1]);
+    let len2 = Math.sqrt(p2[0] * p2[0] + p2[1] * p2[1]);
+
+    return getRate(len1, len2) * cosineSimilarity(p1, p2);
+};
+
+/**
+ * cosine similarity [-1, 1]
+ */
+let cosineSimilarity = ([x1, y1], [x2, y2]) => {
+    if (x1 === x2 && y1 === y2) return 1;
+    let dis = Math.sqrt((x1 * x1 + y1 * y1) * (x2 * x2 + y2 * y2));
+    if (dis === 0) return 1;
+    let cross = x1 * x2 + y1 * y2;
+
+    return shrink(cross / dis, -1, 1, 0, 2);
+};
+
+let shrink = (x, start, end, newStart, times) => {
+    return newStart + (x - start) / times;
+};
+
 module.exports = {
     boolToNum,
     matchList,
     getRate,
-    calColorSimilarity
+    calColorSimilarity,
+    spaceSimilarity
 };

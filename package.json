@@ -1,6 +1,6 @@
 {
   "name": "dom-node-similarity",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "dom node similarity",
   "main": "index.js",
   "scripts": {

@@ -1,0 +1,117 @@
+{
+    "node": {
+        "tagName": "I",
+        "nodeType": 1,
+        "index": 0,
+        "attributes": {
+            "class": "text-icon"
+        },
+        "style": {
+            "style": {
+                "color": "rgb(255, 255, 255)",
+                "background-color": "rgba(0, 0, 0, 0)",
+                "display": "inline-block",
+                "visibility": "visible",
+                "content": "",
+                "font-size": "17px"
+            },
+            "beforeStyle": {
+                "color": "rgb(255, 255, 255)",
+                "background-color": "rgba(0, 0, 0, 0)",
+                "display": "inline-block",
+                "visibility": "visible",
+                "content": "",
+                "font-size": "17px"
+            },
+            "afterStyle": {
+                "color": "rgb(255, 255, 255)",
+                "background-color": "rgba(0, 0, 0, 0)",
+                "display": "inline-block",
+                "visibility": "visible",
+                "content": "",
+                "font-size": "17px"
+            },
+            "shape": {
+                "offsetLeft": 23,
+                "offsetTop": 86,
+                "clientLeft": 0,
+                "clientTop": 0,
+                "offsetWidth": 17,
+                "offsetHeight": 41,
+                "clientWidth": 17,
+                "clientHeight": 41,
+                "rect": {
+                    "bottom": 44,
+                    "top": 3,
+                    "left": 295.5625,
+                    "right": 312.546875,
+                    "height": 41,
+                    "width": 16.984375
+                }
+            }
+        },
+        "textContent": "⌕"
+    },
+    "path": [{
+        "attributes": {
+            "class": "react headSearch",
+            "gaevent": "imt/hd/search",
+            "href": "//i.meituan.com/s/"
+        },
+        "index": 0,
+        "nodeType": 1,
+        "tagName": "A",
+        "textContent": "⌕\n                            搜索"
+    }, {
+        "attributes": {},
+        "index": 5,
+        "nodeType": 1,
+        "tagName": "LI",
+        "textContent": "⌕\n                            搜索"
+    }, {
+        "attributes": {},
+        "index": 1,
+        "nodeType": 1,
+        "tagName": "UL",
+        "textContent": "\n                    ⟰\n                        首页\n                    ⍥\n                        我的\n                        ⌕\n                            搜索\n                "
+    }, {
+        "attributes": {
+            "id": "nav-dropdown",
+            "class": "nav-dropdown"
+        },
+        "index": 7,
+        "nodeType": 1,
+        "tagName": "DIV"
+    }, {
+        "attributes": {
+            "class": "navbar"
+        },
+        "index": 1,
+        "nodeType": 1,
+        "tagName": "HEADER"
+    }, {
+        "attributes": {
+            "id": "ktv-poi",
+            "data-com": "pagecommon",
+            "data-page-id": "100172",
+            "data-iswebview": "false",
+            "class": "automove"
+        },
+        "index": 2,
+        "nodeType": 1,
+        "tagName": "BODY"
+    }, {
+        "attributes": {
+            "style": "font-size: 50px;"
+        },
+        "index": 1,
+        "nodeType": 1,
+        "tagName": "HTML"
+    }, {
+        "attributes": {},
+        "index": 0,
+        "nodeType": 9,
+        "tagName": "#document"
+    }],
+    "aliveNodeId": "1495441958866-419-0.5164714862205706"
+}
